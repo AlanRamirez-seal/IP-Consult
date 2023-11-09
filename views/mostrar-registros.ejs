@@ -1,0 +1,64 @@
+<!-- mostrar-registros.ejs -->
+<html>
+<head>
+    <title>Mostrar Registros</title>
+    <link rel="stylesheet" href="https://bootswatch.com/4/lux/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mx-auto"> <!-- Agregada la clase mx-auto para centrar -->
+        <h1>Registros de IP</h1>
+        <a href="http://localhost:3000/" class="btn btn-secondary"><button type="button">Regresar a Consulta de IP</button></a>
+
+        <!-- Formulario para buscar por IP -->
+        <form method="GET" action="/buscar-registro">
+            <div class="form-group">
+                <label for="ipBusqueda">Buscar por IP:</label>
+                <input type="text" class="form-control" id="ipBusqueda" name="ipBusqueda" placeholder="Ingrese la IP">
+            </div>
+            <button type="submit" class="btn btn-primary">Buscar</button>
+        </form>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">IP</th>
+                    <th scope="col">Hostname</th>
+                    <th scope="col">City</th>
+                    <th scope="col">Region</th>
+                    <th scope="col">Country</th>
+                    <th scope="col">Loc</th>
+                    <th scope="col">Org</th>
+                    <th scope="col">Timezone</th>
+                    <th scope="col">Eliminar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% registros.forEach(registro => { %>
+                    <tr>
+                        <td><%= registro.id %></td>
+                        <td><%= registro.ip %></td>
+                        
+                        <% const dataObj = JSON.parse(registro.data); %>
+                        <td><%= dataObj.hostname %></td>
+                        <td><%= dataObj.city %></td>
+                        <td><%= dataObj.region %></td>
+                        <td><%= dataObj.country %></td>
+                        <td><%= dataObj.loc %></td>
+                        <td><%= dataObj.org %></td>
+                        <td><%= dataObj.timezone %></td>
+                        
+                        <td>
+                            <div>
+                                <form method="POST" action="/eliminar-registro/<%= registro.id %>">
+                                  <button type="submit">Eliminar</button>
+                                </form>
+                              </div>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

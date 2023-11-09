@@ -1,0 +1,42 @@
+<!-- resultados.ejs -->
+<html>
+<head>
+    <title>Resultados</title>
+    <!-- Agrega estos enlaces para Bootstrap y Bootswatch -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/lux/bootstrap.min.css">
+
+    <!-- Estilos adicionales para la tabla -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Resultados para <%= ip %></h1>
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Atributo</th>
+                    <th>Valor</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% Object.keys(data).forEach(key => { %>
+                    <tr>
+                        <td><%= key %></td>
+                        <td><%= data[key] %></td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

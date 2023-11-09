@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consulta de IP</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.0/dist/lux/bootstrap.min.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h1 class="mt-5">Consulta de IP</h1>
+        <form id="consultaForm" class="mb-3">
+          <label for="ipInput" class="form-label">Ingrese la dirección IP:</label>
+          <input type="text" id="ipInput" name="ip" class="form-control" required>
+          <button type="button" class="btn btn-primary mt-3" onclick="consultarIP()">Consultar</button>
+          <!-- Nuevo botón para mostrar todos los registros -->
+          <a href="/mostrar-registros" class="btn btn-secondary">Mostrar Todos los Registros</a>
+        </form>
+        <div id="resultados">
+          <!-- Aquí se mostrarán los resultados de la consulta -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    async function consultarIP() {
+      const ipInput = document.getElementById('ipInput');
+      const resultadosDiv = document.getElementById('resultados');
+
+      // Verificar si la caja de texto está vacía
+      if (ipInput.value.trim() === '') {
+        alert("Por favor, ingrese una dirección IP.");
+        return;
+      }
+
+      try {
+        const response = await fetch('/consultar-ip-form', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: `ip=${ipInput.value}`,
+        });
+        if (response.ok) {
+          const resultHTML = await response.text();
+          resultadosDiv.innerHTML = resultHTML;
+        } else {
+          resultadosDiv.innerHTML = '<p>La IP ya está registrada.</p>';
+          alert("La IP ya está registrada");
+        }
+      } catch (error) {
+        console.error(error);
+        resultadosDiv.innerHTML = '<p>Error al realizar la solicitud.</p>';
+      }
+    }
+  </script>
+</body>
+
+</html>
